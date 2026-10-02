@@ -1,0 +1,32 @@
+import java.util.List;
+
+public class NoteManagement {
+    private NoteStrategy strategy;
+
+    // Khởi tạo với một chiến lược mặc định
+    public NoteManagement(NoteStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    // Cho phép thay đổi chiến lược linh hoạt lúc Runtime (Runtime Pluggable Storage)
+    public void setStrategy(NoteStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public void addNote(String title, String content, int typeId) {
+        Note note = new Note(title, content, typeId);
+        strategy.save(note);
+    }
+
+    public void deleteNote(int id) {
+        strategy.delete(id);
+    }
+
+    public List<Note> searchNotes(String keyword) {
+        return strategy.search(keyword);
+    }
+
+    public List<Note> getAllNotes() {
+        return strategy.findAll();
+    }
+}
