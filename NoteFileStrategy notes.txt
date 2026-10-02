@@ -1,0 +1,70 @@
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class NoteFileStrategy implements NoteStrategy {
+    private final String FILE_PATH = "notes.txt";
+
+    @Override
+    public void save(Note note) {
+        List<Note> notes = findAll();
+        int newId = notes.isEmpty() ? 1 : notes.get(notes.size() - 1).getId() + 1;
+        note.setId(newId);
+        
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
+            bw.write(note.getId() + "|" + note.getTitle() + "|" + note.getContent() + "|" + note.getTypeId());
+            bw.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete(int id) {
+        List<Note> notes = findAll();
+        notes.removeIf(n -> n.getId() == id);
+        rewriteFile(notes);
+    }
+
+    @Override
+    public List<Note> findAll() {
+        List<Note> list = new ArrayList<>();
+        File file = new File(FILE_PATH);
+        if (!file.exists()) return list;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("\\|");
+                if (parts.length >= 4) {
+                    list.add(new Note(Integer.parseInt(parts[0]), parts[1], parts[2], Integer.parseInt(parts[3])));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    @Override
+    public List<Note> search(String keyword) {
+        List<Note> result = new ArrayList<>();
+        for (Note n : findAll()) {
+            if (n.getTitle().contains(keyword) || n.getContent().contains(keyword)) {
+                result.add(n);
+            }
+        }
+        return result;
+    }
+
+    private void rewriteFile(List<Note> notes) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH, false))) {
+            for (Note n : notes) {
+                bw.write(n.getId() + "|" + n.getTitle() + "|" + n.getContent() + "|" + n.getTypeId());
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
