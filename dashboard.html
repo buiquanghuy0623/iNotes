@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>iNotes Dashboard</title>
+</head>
+<body>
+    <h2>Danh Sách Ghi Chú (iNotes Dashboard)</h2>
+    
+    <!-- Thanh tìm kiếm và Thêm mới -->
+    <form action="dashboard.html" method="GET">
+        <input type="text" name="keyword" placeholder="Nhập từ khóa tìm kiếm...">
+        <button type="submit">Tìm kiếm</button>
+        <a href="add-note.html"><button type="button">+ Thêm Mới</button></a>
+    </form>
+    <br>
+
+    <!-- Bảng hiển thị danh sách -->
+    <table border="1" cellpadding="10" cellspacing="0">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Tiêu đề</th>
+                <th>Phân loại</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Họp giao ban đầu tuần</td>
+                <td>Công việc</td>
+                <td>
+                    <a href="#">Xem</a> | 
+                    <a href="#">Sửa</a> | 
+                    <a href="#">Xóa</a>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Ôn tập Design Pattern Servlet</td>
+                <td>Học tập</td>
+                <td>
+                    <a href="#">Xem</a> | 
+                    <a href="#">Sửa</a> | 
+                    <a href="#">Xóa</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
